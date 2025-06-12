@@ -15,11 +15,14 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0c0e1a, #141a2e);
-            color: #fff;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff, #f1f3f4);
+            color: #2c3e50;
             min-height: 100vh;
             padding: 20px;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjEiIGZpbGw9IiMxYjIxM2YiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+');
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(248, 249, 250, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(241, 243, 244, 0.8) 0%, transparent 50%);
         }
         
         .container {
@@ -43,27 +46,28 @@
         .logo {
             width: 80px;
             height: 80px;
-            background: linear-gradient(45deg, #ff8c00, #ff4500);
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 40px;
             font-weight: bold;
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            border: 3px solid rgba(255, 107, 53, 0.2);
         }
         
         h1 {
             font-size: 3rem;
             margin-bottom: 10px;
-            background: linear-gradient(90deg, #ff8c00, #ffd700, #ff8c00);
+            background: linear-gradient(90deg, #ff6b35, #f7931e, #ff6b35);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             animation: titleGlow 3s ease-in-out infinite;
         }
         
@@ -75,13 +79,12 @@
         
         .subtitle {
             font-size: 1.2rem;
-            color: #e0e0ff;
+            color: #495057;
             margin-bottom: 30px;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.6;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         .stats-grid {
@@ -92,53 +95,35 @@
         }
         
         .stat-card {
-            background: rgba(25, 30, 50, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(255, 140, 0, 0.3);
-            backdrop-filter: blur(5px);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, #ff8c00, #ff4500, #ff8c00);
-            z-index: -1;
-            border-radius: 17px;
-            animation: borderAnimation 3s linear infinite;
-        }
-        
-        @keyframes borderAnimation {
-            0% { opacity: 0.5; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.5; }
+            border: 2px solid rgba(255, 107, 53, 0.1);
+            backdrop-filter: blur(10px);
         }
         
         .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(255, 69, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15);
         }
         
         .card-header {
             padding: 20px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.4);
-            position: relative;
+            background: rgba(255, 107, 53, 0.05);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.1);
         }
         
         .card-header h2 {
             font-size: 1.8rem;
-            color: #ffd700;
+            color: #ff6b35;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+            font-weight: 600;
         }
         
         .card-body {
@@ -148,75 +133,40 @@
         .team-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .team-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex: 1;
-        }
-        
-        .team-logo {
-            width: 40px;
-            height: 40px;
-            background: #2c3e50;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: #ffd700;
-            background: linear-gradient(135deg, #1e2a3a, #2c3e50);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: background-color 0.2s ease;
+        }
+        
+        .team-item:hover {
+            background-color: rgba(255, 107, 53, 0.03);
+        }
+        
+        .team-item:last-child {
+            border-bottom: none;
         }
         
         .team-name {
-            font-weight: 500;
-            font-size: 1.1rem;
-            color: #f0f0ff;
-        }
-        
-        .team-percentage {
-            font-weight: bold;
+            font-weight: 600;
             font-size: 1.3rem;
-            color: #ffd700;
-            min-width: 70px;
-            text-align: right;
-        }
-        
-        .progress-container {
-            margin-top: 8px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #ff8c00, #ffd700);
-            border-radius: 4px;
-            box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-            transition: width 1s ease-in-out;
+            color: #2c3e50;
+            text-align: center;
+            letter-spacing: 0.5px;
         }
         
         .data-source {
             text-align: center;
             margin-top: 40px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
-            border: 1px solid rgba(255, 140, 0, 0.3);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 107, 53, 0.1);
+            backdrop-filter: blur(10px);
         }
         
         .data-source p {
-            color: #a0a0c0;
+            color: #6c757d;
             font-size: 0.9rem;
             margin: 5px 0;
         }
@@ -226,33 +176,33 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            color: #a0a0c0;
+            color: #6c757d;
             font-size: 0.9rem;
             margin-top: 30px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             padding: 15px 20px;
-            border: 1px solid rgba(255, 140, 0, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.1);
         }
         
         .btn-refresh {
-            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
             color: white;
             border: none;
             padding: 12px 25px;
             border-radius: 30px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
         
         .btn-refresh:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
         }
         
         .btn-refresh:disabled {
@@ -283,12 +233,12 @@
         }
         
         .info-note {
-            background: rgba(255, 140, 0, 0.15);
-            border-left: 4px solid #ff8c00;
+            background: rgba(255, 107, 53, 0.08);
+            border-left: 4px solid #ff6b35;
             padding: 15px;
             margin: 20px 0;
             border-radius: 0 8px 8px 0;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
         
         .counter-container {
@@ -298,18 +248,19 @@
         }
         
         .counter {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 140, 0, 0.3);
-            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            padding: 15px 30px;
             border-radius: 30px;
             font-size: 1.2rem;
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
         
         .counter-value {
-            color: #ffd700;
+            color: #ff6b35;
             font-weight: bold;
         }
         
@@ -328,7 +279,7 @@
             text-align: center;
             padding: 50px;
             font-size: 1.5rem;
-            color: #ffd700;
+            color: #ff6b35;
         }
         
         .loading i {
@@ -342,12 +293,13 @@
         }
         
         .error-message {
-            background: rgba(255, 50, 50, 0.2);
-            border-left: 4px solid #ff0000;
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
             padding: 15px;
             margin: 20px 0;
             border-radius: 0 8px 8px 0;
             text-align: center;
+            color: #dc3545;
         }
         
         .status-indicator {
@@ -361,15 +313,15 @@
         }
         
         .status-live {
-            background: rgba(0, 255, 0, 0.2);
-            border: 1px solid #00ff00;
-            color: #00ff88;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid #28a745;
+            color: #28a745;
         }
         
         .status-mock {
-            background: rgba(255, 165, 0, 0.2);
-            border: 1px solid #ffa500;
-            color: #ffcc00;
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            color: #856404;
         }
         
         .pulse-dot {
@@ -394,7 +346,7 @@
                 <div class="logo">CS2</div>
             </div>
             <h1><i class="fas fa-chart-bar"></i> HLTV Pick'em İstatistikleri</h1>
-            <p class="subtitle">Austin Major 2025 için HLTV'deki Pick'em seçimlerinin istatistiksel analizi. En çok seçilen takımları ve yüzdelerini görüntüleyin.</p>
+            <p class="subtitle">Austin Major 2025 için HLTV'deki Pick'em seçimlerinin istatistiksel analizi. En çok seçilen takımları görüntüleyin.</p>
             
             <div class="status-indicator" id="statusIndicator">
                 <div class="pulse-dot"></div>
@@ -573,27 +525,15 @@
                 minute: '2-digit',
                 timeZoneName: 'short'
             });
-            
-            // Progress bar animasyonu
-            setTimeout(() => {
-                const progressBars = document.querySelectorAll('.progress-bar');
-                progressBars.forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0';
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, 100);
-                });
-            }, 300);
         }
         
-        // Takım verilerini HTML'e ekle
+        // Takım verilerini HTML'e ekle - Sadece takım isimleri
         function renderTeamData(elementId, teams) {
             const container = document.getElementById(elementId);
             container.innerHTML = '';
             
             if (!teams || teams.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #a0a0c0;">Veri bulunamadı</p>';
+                container.innerHTML = '<p style="text-align: center; color: #6c757d;">Veri bulunamadı</p>';
                 return;
             }
             
@@ -603,27 +543,10 @@
                 teamElement.style.animationDelay = `${index * 0.1}s`;
                 
                 teamElement.innerHTML = `
-                    <div class="team-info">
-                        <div class="team-logo">${team.name.charAt(0).toUpperCase()}</div>
-                        <div class="team-name">${team.name}</div>
-                    </div>
-                    <div class="team-percentage">${team.percentage}%</div>
-                `;
-                
-                const progressContainer = document.createElement('div');
-                progressContainer.className = 'progress-container';
-                progressContainer.innerHTML = `
-                    <div class="progress-bar" style="width: 0%; transition: width 1s ease-in-out ${index * 0.1}s"></div>
+                    <div class="team-name">${team.name}</div>
                 `;
                 
                 container.appendChild(teamElement);
-                container.appendChild(progressContainer);
-                
-                // Progress bar'ı animate et
-                setTimeout(() => {
-                    const progressBar = progressContainer.querySelector('.progress-bar');
-                    progressBar.style.width = `${Math.min(team.percentage, 100)}%`;
-                }, 500 + (index * 100));
             });
         }
         
