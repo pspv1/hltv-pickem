@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLTV Pick'em İstatistikleri | Austin Major 2025</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Oxanium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0e1a, #141a2e);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjEiIGZpbGw9IiMxYjIxM2YiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+');
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff8c00, #ff4500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff8c00, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #e0e0ff;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: rgba(25, 30, 50, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #ff8c00, #ff4500, #ff8c00);
+            z-index: -1;
+            border-radius: 17px;
+            animation: borderAnimation 3s linear infinite;
+        }
+        
+        @keyframes borderAnimation {
+            0% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.5; }
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 69, 0, 0.5);
+        }
+        
+        .card-header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+        
+        .card-header h2 {
+            font-size: 1.8rem;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .team-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            background: #2c3e50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #ffd700;
+            background: linear-gradient(135deg, #1e2a3a, #2c3e50);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .team-name {
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #f0f0ff;
+        }
+        
+        .team-percentage {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #ffd700;
+            min-width: 70px;
+            text-align: right;
+        }
+        
+        .progress-container {
+            margin-top: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff8c00, #ffd700);
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+            transition: width 1s ease-in-out;
+        }
+        
+        .data-source {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .data-source p {
+            color: #a0a0c0;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+        
+        .update-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px 20px;
+            border: 1px solid rgba(255, 140, 0, 0.2);
+        }
+        
+        .btn-refresh {
+            background: linear-gradient(90deg, #ff8c00, #ff4500);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+        }
+        
+        .btn-refresh:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .update-info {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .btn-refresh {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        .info-note {
+            background: rgba(255, 140, 0, 0.15);
+            border-left: 4px solid #ff8c00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .counter-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .counter {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .counter-value {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .card-icon {
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.5rem;
+            color: #ffd700;
+        }
+        
+        .loading i {
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: rgba(255, 50, 50, 0.2);
+            border-left: 4px solid #ff0000;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">CS2</div>
+            </div>
+            <h1><i class="fas fa-chart-bar"></i> HLTV Pick'em İstatistikleri</h1>
+            <p class="subtitle">Austin Major 2025 için HLTV'deki Pick'em seçimlerinin istatistiksel analizi. En çok seçilen takımları ve yüzdelerini görüntüleyin.</p>
+        </header>
+        
+        <div class="counter-container">
+            <div class="counter">
+                <i class="fas fa-users"></i> Toplam Katılımcı: <span class="counter-value" id="totalParticipants">124,567</span>
+            </div>
+        </div>
+        
+        <div class="info-note">
+            <p><i class="fas fa-info-circle"></i> Bu sayfa HLTV'den alınan verileri göstermektedir. Gerçek zamanlı veriler için "Yenile" butonuna basın.</p>
+        </div>
+        
+        <div class="loading" id="loading">
+            <i class="fas fa-spinner"></i> HLTV'den veriler çekiliyor...
+        </div>
+        
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <p><i class="fas fa-exclamation-triangle"></i> <span id="errorText">Veri alınırken bir hata oluştu</span></p>
+        </div>
+        
+        <div class="stats-grid" id="statsGrid" style="display: none;">
+            <!-- 3-0 Takımları -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trophy card-icon"></i> 3-0 Takımları</h2>
+                </div>
+                <div class="card-body" id="threeZero">
+                    <!-- Veriler buraya eklenecek -->
+                </div>
+            </div>
+            
+            <!-- 0-3 Takımları -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-skull card-icon"></i> 0-3 Takımları</h2>
+                </div>
+                <div class="card-body" id="zeroThree">
+                    <!-- Veriler buraya eklenecek -->
+                </div>
+            </div>
+            
+            <!-- 3-1 Takımları -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-medal card-icon"></i> 3-1 Takımları</h2>
+                </div>
+                <div class="card-body" id="threeOne">
+                    <!-- Veriler buraya eklenecek -->
+                </div>
+            </div>
+            
+            <!-- 3-2 Takımları -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-shield-alt card-icon"></i> 3-2 Takımları</h2>
+                </div>
+                <div class="card-body" id="threeTwo">
+                    <!-- Veriler buraya eklenecek -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-source">
+            <p><i class="fas fa-database"></i> Veri Kaynağı: HLTV.org - Austin Major 2025 Pick'em Challenge</p>
+            <p><i class="fas fa-sync"></i> Veriler topluluk ve profesyonel oyuncu seçimlerine dayanmaktadır</p>
+        </div>
+        
+        <div class="update-info">
+            <div>
+                <p><i class="fas fa-clock"></i> Son Güncelleme: <span id="lastUpdate">12 Haziran 2025, 14:45 GMT</span></p>
+                <p><i class="fas fa-calendar-alt"></i> Turnuva Başlangıcı: 15 Haziran 2025</p>
+            </div>
+            <button class="btn-refresh" id="refreshButton">
+                <i class="fas fa-sync-alt"></i> Verileri Yenile
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // API Endpoint - HLTV verilerini çeken backend proxy
+        // NOT: Gerçek uygulamada bu URL kendi backend'iniz olmalıdır
+        const API_URL = 'https://api.allorigins.win/raw?url=https://hltv-api-cs2-majors.vercel.app/api/pickem';
+        
+        // DOM elementleri
+        const statsGrid = document.getElementById('statsGrid');
+        const loadingElement = document.getElementById('loading');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const refreshButton = document.getElementById('refreshButton');
+        const totalParticipantsElement = document.getElementById('totalParticipants');
+        const lastUpdateElement = document.getElementById('lastUpdate');
+        
+        // Verileri çek ve göster
+        async function fetchData() {
+            try {
+                // Yükleme durumunu göster
+                loadingElement.style.display = 'block';
+                statsGrid.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                // API'den veriyi çek
+                const response = await fetch(API_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Verileri işle
+                processData(data);
+                
+                // Verileri göster
+                loadingElement.style.display = 'none';
+                statsGrid.style.display = 'grid';
+            } catch (error) {
+                console.error('Veri çekme hatası:', error);
+                loadingElement.style.display = 'none';
+                errorText.textContent = error.message || 'Veri alınırken bir hata oluştu';
+                errorMessage.style.display = 'block';
+            }
+        }
+        
+        // Verileri işle ve HTML'e ekle
+        function processData(data) {
+            // Takım verilerini işle
+            renderTeamData('threeZero', data['3-0']);
+            renderTeamData('zeroThree', data['0-3']);
+            renderTeamData('threeOne', data['3-1']);
+            renderTeamData('threeTwo', data['3-2']);
+            
+            // Toplam katılımcı ve güncelleme zamanı
+            totalParticipantsElement.textContent = data.totalParticipants.toLocaleString();
+            lastUpdateElement.textContent = new Date(data.lastUpdate).toLocaleString('tr-TR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            });
+        }
+        
+        // Takım verilerini HTML'e ekle
+        function renderTeamData(elementId, teams) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            
+            teams.forEach(team => {
+                const teamElement = document.createElement('div');
+                teamElement.className = 'team-item';
+                teamElement.innerHTML = `
+                    <div class="team-info">
+                        <div class="team-logo">${team.name.charAt(0)}</div>
+                        <div class="team-name">${team.name}</div>
+                    </div>
+                    <div class="team-percentage">${team.percentage}%</div>
+                `;
+                
+                const progressContainer = document.createElement('div');
+                progressContainer.className = 'progress-container';
+                progressContainer.innerHTML = `
+                    <div class="progress-bar" style="width: ${team.percentage}%"></div>
+                `;
+                
+                container.appendChild(teamElement);
+                container.appendChild(progressContainer);
+            });
+        }
+        
+        // Yenile butonu için
+        refreshButton.addEventListener('click', () => {
+            fetchData();
+        });
+        
+        // Sayfa yüklendiğinde verileri çek
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+            
+            // Sayfa yüklendiğinde progress bar animasyonu
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-bar');
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 300);
+                });
+            }, 1000);
+        });
+        
+        // Takım kartlarına hover efekti
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.stat-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
