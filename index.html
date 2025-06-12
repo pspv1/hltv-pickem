@@ -255,6 +255,12 @@
             box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
         }
         
+        .btn-refresh:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         @media (max-width: 768px) {
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -343,6 +349,42 @@
             border-radius: 0 8px 8px 0;
             text-align: center;
         }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .status-live {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid #00ff00;
+            color: #00ff88;
+        }
+        
+        .status-mock {
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid #ffa500;
+            color: #ffcc00;
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse-dot 1.5s infinite;
+        }
+        
+        @keyframes pulse-dot {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -353,11 +395,16 @@
             </div>
             <h1><i class="fas fa-chart-bar"></i> HLTV Pick'em İstatistikleri</h1>
             <p class="subtitle">Austin Major 2025 için HLTV'deki Pick'em seçimlerinin istatistiksel analizi. En çok seçilen takımları ve yüzdelerini görüntüleyin.</p>
+            
+            <div class="status-indicator" id="statusIndicator">
+                <div class="pulse-dot"></div>
+                <span id="statusText">Veri durumu kontrol ediliyor...</span>
+            </div>
         </header>
         
         <div class="counter-container">
             <div class="counter">
-                <i class="fas fa-users"></i> Toplam Katılımcı: <span class="counter-value" id="totalParticipants">124,567</span>
+                <i class="fas fa-users"></i> Toplam Katılımcı: <span class="counter-value" id="totalParticipants">-</span>
             </div>
         </div>
         
@@ -422,7 +469,7 @@
         
         <div class="update-info">
             <div>
-                <p><i class="fas fa-clock"></i> Son Güncelleme: <span id="lastUpdate">12 Haziran 2025, 14:45 GMT</span></p>
+                <p><i class="fas fa-clock"></i> Son Güncelleme: <span id="lastUpdate">-</span></p>
                 <p><i class="fas fa-calendar-alt"></i> Turnuva Başlangıcı: 15 Haziran 2025</p>
             </div>
             <button class="btn-refresh" id="refreshButton">
@@ -432,9 +479,8 @@
     </div>
 
     <script>
-        // API Endpoint - HLTV verilerini çeken backend proxy
-        // NOT: Gerçek uygulamada bu URL kendi backend'iniz olmalıdır
-        const API_URL = 'https://api.allorigins.win/raw?url=https://hltv-api-cs2-majors.vercel.app/api/pickem';
+        // API Endpoint - Kendi backend'imiz
+        const API_URL = '/api/pickem';
         
         // DOM elementleri
         const statsGrid = document.getElementById('statsGrid');
@@ -444,17 +490,36 @@
         const refreshButton = document.getElementById('refreshButton');
         const totalParticipantsElement = document.getElementById('totalParticipants');
         const lastUpdateElement = document.getElementById('lastUpdate');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        
+        let isRefreshing = false;
         
         // Verileri çek ve göster
         async function fetchData() {
+            if (isRefreshing) return;
+            
             try {
+                isRefreshing = true;
+                refreshButton.disabled = true;
+                refreshButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yenileniyor...';
+                
                 // Yükleme durumunu göster
                 loadingElement.style.display = 'block';
                 statsGrid.style.display = 'none';
                 errorMessage.style.display = 'none';
                 
+                statusText.textContent = 'Veriler çekiliyor...';
+                statusIndicator.className = 'status-indicator status-mock';
+                
                 // API'den veriyi çek
-                const response = await fetch(API_URL);
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    cache: 'no-cache'
+                });
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -468,11 +533,23 @@
                 // Verileri göster
                 loadingElement.style.display = 'none';
                 statsGrid.style.display = 'grid';
+                
+                // Durum göstergesi güncelle
+                statusText.textContent = 'Veriler başarıyla yüklendi';
+                statusIndicator.className = 'status-indicator status-live';
+                
             } catch (error) {
                 console.error('Veri çekme hatası:', error);
                 loadingElement.style.display = 'none';
                 errorText.textContent = error.message || 'Veri alınırken bir hata oluştu';
                 errorMessage.style.display = 'block';
+                
+                statusText.textContent = 'Veri çekme hatası';
+                statusIndicator.className = 'status-indicator status-mock';
+            } finally {
+                isRefreshing = false;
+                refreshButton.disabled = false;
+                refreshButton.innerHTML = '<i class="fas fa-sync-alt"></i> Verileri Yenile';
             }
         }
         
@@ -485,8 +562,10 @@
             renderTeamData('threeTwo', data['3-2']);
             
             // Toplam katılımcı ve güncelleme zamanı
-            totalParticipantsElement.textContent = data.totalParticipants.toLocaleString();
-            lastUpdateElement.textContent = new Date(data.lastUpdate).toLocaleString('tr-TR', {
+            totalParticipantsElement.textContent = data.totalParticipants.toLocaleString('tr-TR');
+            
+            const updateDate = new Date(data.lastUpdate);
+            lastUpdateElement.textContent = updateDate.toLocaleString('tr-TR', {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric',
@@ -494,6 +573,18 @@
                 minute: '2-digit',
                 timeZoneName: 'short'
             });
+            
+            // Progress bar animasyonu
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-bar');
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 300);
         }
         
         // Takım verilerini HTML'e ekle
@@ -501,12 +592,19 @@
             const container = document.getElementById(elementId);
             container.innerHTML = '';
             
-            teams.forEach(team => {
+            if (!teams || teams.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #a0a0c0;">Veri bulunamadı</p>';
+                return;
+            }
+            
+            teams.forEach((team, index) => {
                 const teamElement = document.createElement('div');
                 teamElement.className = 'team-item';
+                teamElement.style.animationDelay = `${index * 0.1}s`;
+                
                 teamElement.innerHTML = `
                     <div class="team-info">
-                        <div class="team-logo">${team.name.charAt(0)}</div>
+                        <div class="team-logo">${team.name.charAt(0).toUpperCase()}</div>
                         <div class="team-name">${team.name}</div>
                     </div>
                     <div class="team-percentage">${team.percentage}%</div>
@@ -515,11 +613,17 @@
                 const progressContainer = document.createElement('div');
                 progressContainer.className = 'progress-container';
                 progressContainer.innerHTML = `
-                    <div class="progress-bar" style="width: ${team.percentage}%"></div>
+                    <div class="progress-bar" style="width: 0%; transition: width 1s ease-in-out ${index * 0.1}s"></div>
                 `;
                 
                 container.appendChild(teamElement);
                 container.appendChild(progressContainer);
+                
+                // Progress bar'ı animate et
+                setTimeout(() => {
+                    const progressBar = progressContainer.querySelector('.progress-bar');
+                    progressBar.style.width = `${Math.min(team.percentage, 100)}%`;
+                }, 500 + (index * 100));
             });
         }
         
@@ -531,32 +635,21 @@
         // Sayfa yüklendiğinde verileri çek
         document.addEventListener('DOMContentLoaded', () => {
             fetchData();
-            
-            // Sayfa yüklendiğinde progress bar animasyonu
-            setTimeout(() => {
-                const progressBars = document.querySelectorAll('.progress-bar');
-                progressBars.forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0';
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, 300);
-                });
-            }, 1000);
         });
         
-        // Takım kartlarına hover efekti
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.stat-card');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'translateY(-10px)';
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'translateY(0)';
-                });
-            });
+        // Otomatik yenileme (5 dakikada bir)
+        setInterval(() => {
+            if (!isRefreshing) {
+                console.log('Otomatik veri yenileme...');
+                fetchData();
+            }
+        }, 5 * 60 * 1000); // 5 dakika
+        
+        // Sayfa görünür olduğunda veriyi yenile
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && !isRefreshing) {
+                fetchData();
+            }
         });
     </script>
 </body>
